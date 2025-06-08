@@ -1,0 +1,224 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <Windows.h>
+
+#define ROOM_WIDTH 10
+#define HME_POS 1
+#define BWL_PO (ROOM_WIDTH - 2)
+
+int main(void) {
+
+	printf("****야옹이와 수프****\n\n");
+
+	printf("      /\\_/\\\n");
+	printf(" /\\  / o o \\\n");
+	printf("//\\\\ \\~(*)~/\n");
+	printf("`  \\/   ^ /\n");
+	printf("   | \\|| || \n");
+	printf("   \\ '|| ||\n");
+	printf("    \\)()-())\n\n");
+
+	char catname[100];
+
+	printf("야옹이의 이름을 지어 주세요: ");
+	scanf_s("%s", catname, sizeof(catname));
+	printf("야옹이의 이름은 %s입니다.\n", catname);
+
+	Sleep(1000);
+	system("cls");
+
+	int soup = 0;
+	int frdshp = 2;
+
+	int cat_pos = HME_POS;
+	int previous_pos = -1;
+
+	while (1) {
+		printf("==================== 현재상태===================\n");
+
+		printf("현재까지 만든 수프: %d개\n", soup);
+		printf("집사와의 관계(0~4): %d\n", frdshp);
+
+		if (frdshp == 0) {
+			printf(" 곁에 오는 것조차 싫어합니다.\n");
+		}
+		else if (frdshp == 1) {
+			printf(" 간식 자판기 취급입니다.\n");
+		}
+		else if (frdshp == 2) {
+			printf(" 그럭저럭 쓸 만한 집사입니다.\n");
+		}
+		else if (frdshp == 3) {
+			printf(" 훌륭한 집사로 인정받고 있습니다.\n");
+		}
+		else if (frdshp >= 4) {
+			printf(" 집사 껌딱지입니다.\n");
+		}
+		printf("==================================================\n\n");
+
+		printf("%s 이동: 집사와 친밀할수록 냄비 쪽으로 갈 확률이 높아집니다.\n", catname);
+		printf("주사위 눈이 %d 이상이면 냄비 쪽으로 이동합니다.\n", 6 - frdshp);
+		printf("주사위를 굴립니다. 또르륵...\n");
+
+		previous_pos = cat_pos;
+		int moved = 0;
+
+		srand((unsigned int)time(NULL));
+		for (int i = 0; i < 1; i++) {
+			int dice = rand() % 6 + 1;
+			printf("%d이(가) 나왔습니다!\n", dice);
+
+			if (dice >= (6 - frdshp)) {
+				if (cat_pos < BWL_PO) {
+					previous_pos = cat_pos;
+					cat_pos += 1;
+					moved = 1;
+					printf("냄비 쪽으로 움직입니다.\n");
+				}
+				else {
+					previous_pos = -1;
+				}
+			}
+			else {
+				if (cat_pos > HME_POS) {
+					previous_pos = cat_pos;
+					cat_pos -= 1;
+					moved = 1;
+					printf("집 쪽으로 움직입니다.\n");
+				}
+				else {
+					previous_pos = -1;
+				}
+			}
+
+			if (cat_pos == HME_POS) {
+				printf("%s은(는) 자신의 집에서 편안함을 느낍니다.\n", catname);
+			}
+			else if (cat_pos == BWL_PO) {
+				srand((unsigned int)time(NULL));
+				for (int i = 0; i < 1; i++) {
+					int soup_name = rand() % 3;
+
+					if (soup_name == 0) {
+						printf("%s이(가) 감자 수프를 만들었습니다!\n", catname);
+					}
+					else if (soup_name == 1) {
+						printf("%s이(가) 양송이 수프를 만들었습니다!\n", catname);
+					}
+					else if (soup_name == 2) {
+						printf("%s이(가) 브로콜리 수프를 만들었습니다!\n", catname);
+					}
+					soup += 1;
+				}
+			}
+
+			printf("\n");
+			//위쪽 벽
+			for (int i = 0; i < ROOM_WIDTH; i++) {
+				printf("#");
+			}
+			printf("\n");
+			//집, 냄비
+			printf("#");
+			for (int i = 1; i < ROOM_WIDTH - 1; i++) {
+				if (i == HME_POS) {
+					printf("H");
+				}
+				else if (i == BWL_PO) {
+					printf("B");
+				}
+				else {
+					printf(" ");
+				}
+			}
+			printf("#\n");
+			//고양이 위치
+			printf("#");
+			for (int i = 1; i < ROOM_WIDTH - 1; i++) {
+				if (i == cat_pos) {
+					printf("C");
+				}
+				else if (i == previous_pos && previous_pos != cat_pos) {
+					printf(".");
+				}
+				else {
+					printf(" ");
+				}
+			}
+			printf("#\n");
+			//아래쪽 벽
+			for (int i = 0; i < ROOM_WIDTH; i++) {
+				printf("#");
+			}
+			printf("\n");
+
+			int move;
+			printf("어떤 상호작용을 하시겠습니까?  0. 아무것도 하지 않음   1. 긁어 주기\n");
+			while (1) {
+				printf(">> ");
+				scanf_s("%d", &move);
+				if (move == 0) {
+					printf("아무것도 하지 않았습니다.\n");
+					printf("4/6의 확률로 친밀도가 떨어집니다.\n");
+					printf("주사위를 굴립니다. 또르륵...\n");
+
+					srand((unsigned int)time(NULL));
+					for (int i = 0; i < 1; i++) {
+						int dice = rand() % 6 + 1;
+						if (dice > 4) {
+							printf("%d이(가) 나왔습니다!\n", dice);
+							printf("다행이 친밀도가 떨어지지 않았습니다.\n");
+						}
+						else if (dice <= 4) {
+							printf("%d이(가) 나왔습니다!\n", dice);
+							if (frdshp > 0) {
+								printf("친밀도가 떨어집니다.\n");
+								frdshp -= 1;
+							}
+							else {
+								printf("더 이상 떨어지지 않습니다.\n");
+							}
+						}
+					}
+					break;
+				}
+
+				else if (move == 1) {
+					printf("%s의 턱을 긁어주었습니다.\n", catname);
+					printf("2/6의 확률로 친밀도가 높아집니다.\n");
+					printf("주사위를 굴립니다. 또르륵...\n");
+
+					srand((unsigned int)time(NULL));
+					for (int i = 0; i < 1; i++) {
+						int dice = rand() % 6 + 1;
+						if (dice > 4) {
+							printf("%d이(가) 나왔습니다!\n", dice);
+							if (frdshp < 4) {
+								printf("친밀도가 높아집니다.\n");
+								frdshp += 1;
+							}
+							else {
+								printf("이미 친밀도가 최대입니다.\n");
+							}
+						}
+						else if (dice <= 4) {
+							printf("%d이(가) 나왔습니다!\n", dice);
+							printf("친밀도는 그대로입니다.\n");
+						}
+					}
+					break;
+				}
+				else {
+				}
+			}
+			printf("현재 친밀도: %d\n", frdshp);
+
+			Sleep(2500);
+			system("cls");
+
+		}
+	}
+
+	return 0;
+}
