@@ -172,13 +172,13 @@ int main(void) {
 			//스크래처
 			if (cat_pos == scratcher_pos && scratcher) {
 				if (cat_feel < 3) cat_feel++;
-				printf("%s이(가) 스크래처를 긁고 놀았습니다. 기분이 조금 좋아졌습니다.\n");
+				printf("%s이(가) 스크래처를 긁고 놀았습니다. 기분이 조금 좋아졌습니다.\n", catname);
 			}
 			//z캣 타워
 			if (cat_pos == tower_pos && cat_tower) {
 				if (cat_feel <= 1) cat_feel += 2;
 				else if (cat_feel == 2) cat_feel++;
-				printf("%s이(가) 캣타워를 뛰어다닙니다. 기분이 제법 좋아졌습니다.\n");
+				printf("%s이(가) 캣타워를 뛰어다닙니다. 기분이 제법 좋아졌습니다.\n", catname);
 			}
 
 			printf("\n");
@@ -195,6 +195,12 @@ int main(void) {
 				}
 				else if (i == BWL_PO) {
 					printf("B");
+				}
+				else if (i == scratcher_pos) {
+					printf("S");
+				}
+				else if (i == tower_pos) {
+					printf("T");
 				}
 				else {
 					printf(" ");
@@ -221,8 +227,13 @@ int main(void) {
 			}
 			printf("\n");
 
+			//상호작용
 			int move;
 			printf("어떤 상호작용을 하시겠습니까?  0. 아무것도 하지 않음   1. 긁어 주기\n");
+			if (toy_mouse) printf("2. 장난감 쥐로 놀아 주기\n");
+			if (laser_pointer) printf("3. 레이저 포인터로 놀아 주기\n");
+
+
 			while (1) {
 				printf(">> ");
 				scanf_s("%d", &move);
