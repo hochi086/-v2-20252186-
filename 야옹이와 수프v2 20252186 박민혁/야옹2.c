@@ -76,8 +76,7 @@ int main(void) {
 		}
 		printf("==================================================\n\n");
 
-		printf("%s 이동: 집사와 친밀할수록 냄비 쪽으로 갈 확률이 높아집니다.\n", catname);
-		printf("주사위 눈이 %d 이상이면 냄비 쪽으로 이동합니다.\n", 6 - frdshp);
+		printf("%d-%d: 주사위 눈이 %d이하이면 그냥 기분이 나빠집니다.\n", 6, frdshp, 6 - frdshp);
 		printf("주사위를 굴립니다. 또르륵...\n");
 
 		previous_pos = cat_pos;
@@ -86,29 +85,12 @@ int main(void) {
 		srand((unsigned int)time(NULL));
 		for (int i = 0; i < 1; i++) {
 			int dice = rand() % 6 + 1;
-			printf("%d이(가) 나왔습니다!\n", dice);
-
-			if (dice >= (6 - frdshp)) {
-				if (cat_pos < BWL_PO) {
-					previous_pos = cat_pos;
-					cat_pos += 1;
-					moved = 1;
-					printf("냄비 쪽으로 움직입니다.\n");
-				}
-				else {
-					previous_pos = -1;
-				}
-			}
-			else {
-				if (cat_pos > HME_POS) {
-					previous_pos = cat_pos;
-					cat_pos -= 1;
-					moved = 1;
-					printf("집 쪽으로 움직입니다.\n");
-				}
-				else {
-					previous_pos = -1;
-				}
+			printf("%d이(가) 나왔습니다.\n", dice);
+			
+			//고양이 기분 나빠짐
+			if (dice <= (6 - frdshp) && cat_feel > 0) {
+				printf("%s의 기분이 나빠집니다: %d→%d\n", catname, cat_feel, cat_feel - 1);
+				cat_feel--;
 			}
 
 			if (cat_pos == HME_POS) {
