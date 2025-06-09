@@ -29,6 +29,8 @@ int main(void) {
 	Sleep(1000);
 	system("cls");
 
+	int turn = 0;
+
 	int soup = 0;
 	int frdshp = 2;
 
@@ -42,6 +44,9 @@ int main(void) {
 	int scratcher_pos = -1, tower_pos = -1;
 
 	while (1) {
+
+		turn++;
+
 		printf("==================== 현재상태===================\n");
 		
 		printf("현재까지 만든 수프: %d개\n", soup);
@@ -79,6 +84,11 @@ int main(void) {
 			printf(" 집사 껌딱지입니다.\n");
 		}
 		printf("==================================================\n\n");
+
+		if (turn == 3) {
+			printf("=== 돌발 이벤트 발생! ===\n");
+
+		}
 
 		printf("%d-%d: 주사위 눈이 %d이하이면 그냥 기분이 나빠집니다.\n", 6, frdshp, 6 - frdshp);
 		printf("주사위를 굴립니다. 또르륵...\n");
