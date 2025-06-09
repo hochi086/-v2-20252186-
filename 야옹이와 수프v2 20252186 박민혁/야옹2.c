@@ -87,13 +87,13 @@ int main(void) {
 			int dice = rand() % 6 + 1;
 			printf("%d이(가) 나왔습니다.\n", dice);
 			
-			//고양이 기분 나빠짐
+			//야옹2 기분 나빠짐
 			if (dice <= (6 - frdshp) && cat_feel > 0) {
 				printf("%s의 기분이 나빠집니다: %d->%d\n", catname, cat_feel, cat_feel - 1);
 				cat_feel--;
 			}
 
-			//기분에 따른 행동
+			//야옹ㅇ이 기분에 따른 행동
 			int toy_mouse = 0, laser_pointer = 0, scratcher = 0, cat_tower = 0;
 			int scratcher_pos = -1, tower_pos = -1;
 
@@ -145,6 +145,13 @@ int main(void) {
 				cat_pos++;
 			}
 
+			//야옹이 위치에 따른 행동
+			//집
+			if (cat_pos == HME_POS && previous_pos == HME_POS && cat_feel < 3) {
+				cat_feel++;
+				printf("집에서 한 턴을 쉬어서 기분이 좋아졌습니다.\n");
+			}
+			//냄비
 			else if (cat_pos == BWL_PO) {
 				srand((unsigned int)time(NULL));
 				for (int i = 0; i < 1; i++) {
@@ -161,6 +168,17 @@ int main(void) {
 					}
 					soup += 1;
 				}
+			}
+			//스크래처
+			if (cat_pos == scratcher_pos && scratcher) {
+				if (cat_feel < 3) cat_feel++;
+				printf("%s이(가) 스크래처를 긁고 놀았습니다. 기분이 조금 좋아졌습니다.\n");
+			}
+			//z캣 타워
+			if (cat_pos == tower_pos && cat_tower) {
+				if (cat_feel <= 1) cat_feel += 2;
+				else if (cat_feel == 2) cat_feel++;
+				printf("%s이(가) 캣타워를 뛰어다닙니다. 기분이 제법 좋아졌습니다.\n");
 			}
 
 			printf("\n");
