@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <Windows.h>
+#include <string.h>
 
 #define ROOM_WIDTH 10
 #define HME_POS 1
@@ -336,6 +337,10 @@ int main(void) {
 				}
 			}
 			printf("현재 친밀도: %d\n", frdshp);
+
+			int amount = (cat_feel - 1 >= 0 ? cat_feel - 1 : 0) + frdshp;
+			cp += amount;
+			printf("%s의 기분과 친밀도에 따라서 CP가 %d 포인트 생산되었습니다.\n보유 CP: %d 포인트\n", catname, amount, cp);
 
 			Sleep(2500);
 			system("cls");
