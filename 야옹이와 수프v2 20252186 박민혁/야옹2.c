@@ -89,13 +89,62 @@ int main(void) {
 			
 			//고양이 기분 나빠짐
 			if (dice <= (6 - frdshp) && cat_feel > 0) {
-				printf("%s의 기분이 나빠집니다: %d→%d\n", catname, cat_feel, cat_feel - 1);
+				printf("%s의 기분이 나빠집니다: %d->%d\n", catname, cat_feel, cat_feel - 1);
 				cat_feel--;
 			}
 
-			if (cat_pos == HME_POS) {
-				printf("%s은(는) 자신의 집에서 편안함을 느낍니다.\n", catname);
+			//기분에 따른 행동
+			int toy_mouse = 0, laser_pointer = 0, scratcher = 0, cat_tower = 0;
+			int scratcher_pos = -1, tower_pos = -1;
+
+			if (cat_feel == 0 && cat_pos > HME_POS) {
+				printf("기분이 매우 나쁜 %s은(는) 집으로 향합니다.\n", catname);
+				cat_pos--;
 			}
+			else if (cat_feel == 1) {
+				if (scratcher && cat_tower) {
+					int dist_s, dist_t;
+
+					if (cat_pos > scratcher_pos) dist_s = cat_pos - scratcher_pos;
+					else dist_s = scratcher_pos - cat_pos;
+
+					if (cat_pos > tower_pos) dist_t = cat_pos - tower_pos;
+					else dist_t = tower_pos - cat_pos;
+
+					if (dist_s <= dist_t) {
+						printf("%s은(는) 심심해서 스크래처 쪽으로 이동합니다.\n", catname);
+						if (cat_pos < scratcher_pos) cat_pos++;
+						else if (cat_pos > scratcher_pos) cat_pos--;
+					}
+					else {
+						printf("%s은(는) 심심해서 캣타워 쪽으로 이동합니다.\n", catname);
+						if (cat_pos < tower_pos) cat_pos++;
+						else if (cat_pos > tower_pos) cat_pos--;
+					}
+				}
+				else if (scratcher) {
+					printf("%s은(는) 심심해서 스크래처 쪽으로 이동합니다.\n", catname);
+					if (cat_pos < scratcher_pos) cat_pos++;
+					else if (cat_pos > scratcher_pos) cat_pos--;
+				}
+				else if (cat_tower) {
+					printf("%s은(는) 심심해서 캣타워 쪽으로 이동합니다.\n", catname);
+					if (cat_pos < tower_pos) cat_pos++;
+					else if (cat_pos > tower_pos) cat_pos--;
+				}
+				else {
+					printf("놀 거리가 없어서 기분이 매우 나빠집니다.\n");
+					if (cat_feel > 0) cat_feel--;
+				}
+			}
+			else if (cat_feel == 2) {
+				printf("%s은(는) 기분좋게 식빵을 굽고 있습니다.\n", catname);
+			}
+			else if (cat_feel == 3 && cat_pos < BWL_PO) {
+				printf("%s은(는) 골골송을 부르며 수프를 만들러 갑니다.\n", catname);
+				cat_pos++;
+			}
+
 			else if (cat_pos == BWL_PO) {
 				srand((unsigned int)time(NULL));
 				for (int i = 0; i < 1; i++) {
