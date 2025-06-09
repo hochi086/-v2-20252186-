@@ -34,10 +34,29 @@ int main(void) {
 	int cat_pos = HME_POS;
 	int previous_pos = -1;
 
+	int cat_feel = 3;
+	int cp = 0;
+
 	while (1) {
 		printf("==================== 현재상태===================\n");
-
+		
 		printf("현재까지 만든 수프: %d개\n", soup);
+		
+		//고양이 기분
+		printf("%s 기분(0~3): %d\n", catname, cat_feel);
+		if (cat_feel == 3) {
+			printf("골골송을 부릅니다.\n");
+		}
+		else if (cat_feel == 2) {
+			printf("식빵을 굽습니다.\n");
+		}
+		else if (cat_feel == 1) {
+			printf("심심해합니다.\n");
+		}
+		else {
+			printf("기분이 매우 나쁩니다.\n");
+		}
+
 		printf("집사와의 관계(0~4): %d\n", frdshp);
 
 		if (frdshp == 0) {
